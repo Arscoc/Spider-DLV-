@@ -1,0 +1,20 @@
+
+
+
+lower(C,R) :- card(C,R,_,_), card(C,R1,_,_), R<R1.
+ontop(C,R) :- card(C,R,_,_), not lower(C,R).
+stack (C,R,V,S,1) :- card(C,R,V,S), ontop(C,R).
+stack (C,R,V,S,2) :- card(C,R,V,S), stack(C,R1,V1,S,1), V1=V-1, R=R1-1.
+stack (C,R,V,S,3) :- card(C,R,V,S), stack(C,R1,V1,S,2),V1=V-1, R=R1-1.
+stack (C,R,V,S,4) :- card(C,R,V,S), stack(C,R1,V1,S,3),V1=V-1, R=R1-1.
+stack (C,R,V,S,5) :- card(C,R,V,S), stack(C,R1,V1,S,4), V1=V-1, R=R1-1.
+stack (C,R,V,S,6) :- card(C,R,V,S), stack(C,R1,V1,S,5),V1=V-1, R=R1-1.
+stack (C,R,V,S,7) :- card(C,R,V,S), stack(C,R1,V1,S,6),V1=V-1, R=R1-1.
+stack (C,R,V,S,8) :- card(C,R,V,S), stack(C,R1,V1,S,7),V1=V-1, R=R1-1.
+stack (C,R,V,S,9) :- card(C,R,V,S), stack(C,R1,V1,S,8),V1=V-1, R=R1-1.
+stack (C,R,V,S,10) :- card(C,R,V,S), stack(C,R1,V1,S,9), V1=V-1, R=R1-1.
+stack (C,R,V,S,11) :- card(C,R,V,S), stack(C,R1,V1,S,10),V1=V-1, R=R1-1.
+stack (C,R,V,S,12) :- card(C,R,V,S), stack(C,R1,V1,S,11),V1=V-1, R=R1-1.
+move(C,R,C1):-stack(C,R,V,S,_), card(C1,R1,V1,S1),C<>C1,V=V1-1,  ontop(C1,R1).
+
+
