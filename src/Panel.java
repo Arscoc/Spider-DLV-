@@ -41,7 +41,7 @@ public class Panel extends JPanel {
 	int column;
 	int line;
 	int pos = 0;
-	ArrayList<Move> moves = new ArrayList<Move>();
+	ArrayList<rightMove> moves = new ArrayList<rightMove>();
 	ImageLoader loader = new ImageLoader();
 	Table t = new Table();
 	MouseListener l;
@@ -88,14 +88,25 @@ public class Panel extends JPanel {
 		JButton help = new JButton("AIUTO");
 		help.setBounds(770, 190, 120, 50);
 		help.addActionListener(new ActionListener() {
+			
 
 			public void actionPerformed(ActionEvent arg0) {
-
+				Write();
+				answerSets();
+				for (int i =0; i<moves.size();i++)
+					System.out.println(moves.get(i));
+				System.out.println(moves.size());
+				
+				
+				
+				
+/*
 				if (rewriteFacts == false) {
 					for (int i = 0; i < moves.size(); i++) {
-						Values.tipX = moves.get(n).column;
-						Values.tipY = moves.get(n).line;
-
+						if (n < moves.size() - 1) {
+							Values.tipX = moves.get(n).column;
+							Values.tipY = moves.get(n).line;
+						}
 					}
 					if (n == moves.size() - 1)
 						n = 0;
@@ -107,8 +118,10 @@ public class Panel extends JPanel {
 					moves.clear();
 					Write();
 					answerSets();
-					Values.tipX = moves.get(n).column;
-					Values.tipY = moves.get(n).line;
+					if (n < moves.size() - 1) {
+						Values.tipX = moves.get(n).column;
+						Values.tipY = moves.get(n).line;
+					}
 					if (n == moves.size() - 1)
 						n = 0;
 					else
@@ -118,7 +131,7 @@ public class Panel extends JPanel {
 
 				}
 				Values.tip = true;
-
+*/
 			}
 		});
 
@@ -360,7 +373,6 @@ public class Panel extends JPanel {
 	}
 
 	public void Write() {
-		System.out.println("WRITEEEEEEEEEEE");
 		String s;
 
 		int seme = 0;
@@ -370,7 +382,7 @@ public class Panel extends JPanel {
 			writer.print("");
 			writer.close();
 			outputStream = new FileOutputStream("encodings/spider-instance");
-			
+
 			for (int i = 0; i < 10; i++) {
 				int size = t.columns.get(i).size();
 
@@ -409,7 +421,7 @@ public class Panel extends JPanel {
 		handler.addProgram(program);
 
 		try {
-			ASPMapper.getInstance().registerClass(Move.class);
+			ASPMapper.getInstance().registerClass(rightMove.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -418,18 +430,20 @@ public class Panel extends JPanel {
 		Output o = handler.startSync();
 
 		answers = (AnswerSets) o;
-
+		System.out.println("entra");
+		
 		for (AnswerSet a : answers.getAnswersets()) {
 
 			try {
 
 				for (Object obj : a.getAtoms()) {
-					if (obj instanceof Move) {
-						Move c = (Move) obj;
+					if (obj instanceof rightMove) {
+						rightMove c = (rightMove) obj;
+						System.out.println("inserisce");
 //						System.out.print(c + " ");
 						moves.add(c);
 					}
-					
+
 				}
 				System.out.println();
 			} catch (Exception e) {
@@ -445,4 +459,33 @@ public class Panel extends JPanel {
 			}
 		}
 	}
+	
+	public void AutoMove()
+	{
+		if (moves.size()==0) {
+			for (int i = 0; i < 10; i++) {
+				t.mainDeck.get(0).hide = false;
+				t.columns.get(i).add(t.mainDeck.get(0));
+				t.mainDeck.remove(0);
+			}
+			Values.selected = false;
+			Values.tip = false;
+			repaint();}
+		else {
+			for (int i =moves.get(0).line; i<t.columns.get(moves.get(0).column).size(); i++)
+			{
+				t.columns.get(moves.get(0).to).add(t.columns.get(moves.get(0).column).get(i));
+			}
+			for (int i =moves.get(0).column; i<10; i++)
+			{		
+				t.columns.get(moves.get(0).column).remove(moves.get(0).line);
+			}
+			repaint();
+			}
+	}
+	
+	
+	
+	
+	
 }

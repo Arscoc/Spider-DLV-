@@ -16,5 +16,62 @@ stack (C,R,V,S,10) :- card(C,R,V,S), stack(C,R1,V1,S,9), V1=V-1, R=R1-1.
 stack (C,R,V,S,11) :- card(C,R,V,S), stack(C,R1,V1,S,10),V1=V-1, R=R1-1.
 stack (C,R,V,S,12) :- card(C,R,V,S), stack(C,R1,V1,S,11),V1=V-1, R=R1-1.
 move(C,R,C1):-stack(C,R,V,S,_), card(C1,R1,V1,S1),C<>C1,V=V1-1,  ontop(C1,R1).
+:-rightMove(C,R,_),card(C1,R1,V1,S1),stack(C,R,V,S,_), C1=C, R1=R-1, S=S1, V1=V+1.
+
+
+:-  #count{ C,CN,R:rightMove(C,R,CN) } < 1.
+
+rightMove(C,R,C1) v wrongMove(C,R,C1):-move(C,R,C1).
+%minimizza i movimenti con seme  diverso
+:~rightMove(C,R,C1),  card(C,R,_,S), card(C1,R1,_,S1), ontop(C1,R1), S<>S1. [2:3]
+%massimizza i movimenti con lo stesso seme
+:~rightMove(C,R,C1),  card(C,R,_,S), card(C1,R1,_,S1), ontop(C1,R1), S=S1. [1:3]
+%muove gli stack più grandi
+:~wrongMove(C,R,_), stack(C,R,_,_,N). [N:1]
+%crea stack più grandi
+:~wrongMove(C,R,C1), stack(C,R,V,S,N), stack(C1,R1,V1,S1,N1), NR=N+N1. [NR:1]
+%abbassa il numero di carte dalla colonna dalla quale si muovono
+:~rightMove(C,R,C1), stack(C,R,V,S,N), ontop(C,D) , NR=D-N. [NR:2]
+%libera le carte che possono essere spostate con la successiva mossa
+:~wrongMove(C,R,_), stack(C,R,V,S,N), ontop(C1,R1), card(C1,R1,V1,S1), card(C, R2,V2,S2), R2=R-1, V2=V+1, S2<>S, V2=V1+1, S1=S2. [1:2]
+%sposta le carte più alte
+:~wrongMove(C,R,X), stack(C,R,V,S,N), card(C,R,V,S). [V:1]
+
+%:~rightMove(C,R,C2),  stack(C,R,V,S,N), card(C1,R1,V1,S1), card(C2, R2,V2,S2), C1=C, R1=R-1, V1<>Z,Z=V+1. [1:1]
+
+
+
+:- rightMove(C,R,N),rightMove(C1,R1,N1), C1<>C.
+:- rightMove(C,R,N),rightMove(C1,R1,N1), R1<>R.
+:- rightMove(C,R,N),rightMove(C1,R1,N1), N1<>N.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

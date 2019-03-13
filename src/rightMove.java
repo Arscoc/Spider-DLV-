@@ -1,8 +1,8 @@
 import it.unical.mat.embasp.languages.Id;
 import it.unical.mat.embasp.languages.Param;
-@Id("move")
+@Id("rightMove")
 
-public class Move {
+public class rightMove {
 
 	@Param(0)	
 	int column;
@@ -12,7 +12,7 @@ public class Move {
 	int to;
 
 	
-	public Move(int column, int line, int to) {
+	public rightMove(int column, int line, int to) {
 		super();
 		this.column = column;
 		this.line = line;
@@ -20,7 +20,7 @@ public class Move {
 	}
 
 
-	public Move() {
+	public rightMove() {
 	}
 
 
