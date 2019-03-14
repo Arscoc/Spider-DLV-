@@ -93,7 +93,7 @@ public class Panel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Write();
 				answerSets();
-				AutoMove();
+				//AutoMove();
 				
 				
 				
