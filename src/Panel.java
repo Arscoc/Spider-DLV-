@@ -53,7 +53,7 @@ public class Panel extends JPanel {
 		setLayout(null);
 		setBackground(Color.BLACK);
 
-		handler = new DesktopHandler(new DLVDesktopService("lib/dlv.mingw.exe"));
+		handler = new DesktopHandler(new DLVDesktopService("lib/dlv"));
 
 		JButton give = new JButton("DAI CARTE");
 		give.setBounds(770, 50, 120, 50);
@@ -93,7 +93,7 @@ public class Panel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Write();
 				answerSets();
-				//AutoMove();
+				AutoMove();
 				
 				
 				
